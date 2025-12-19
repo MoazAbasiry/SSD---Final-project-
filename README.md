@@ -139,3 +139,10 @@ semgrep --config auto .
 
 # Run custom ruleset verification for project-specific vulnerabilities
 semgrep --config semgrep-rules/ .
+4. Running the Secured Application
+After verifying the security posture, launch the server:
+
+Bash
+
+# Start the server
+node src/server.js
