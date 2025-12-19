@@ -1,5 +1,5 @@
-# 🛡️ SSD Project: Security Audit & Remediation
-**Alexandria National University** | **Faculty of Engineering**
+# SSD Final Project
+
 
 ---
 
@@ -8,9 +8,7 @@
 * **Mosab Magdy** - ID: 2305069
 * **Abdelrhman Soliman** - ID: 2305030
 
-**Presented to:** Eng. Mohamed Hatem
 
----
 
 ## 📋 Project Overview
 This project demonstrates a comprehensive security analysis and remediation of a Node.js/Express application. We utilized a hybrid approach involving **OWASP ZAP** for automated DAST and **Semgrep** for automated SAST.
