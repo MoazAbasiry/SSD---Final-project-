@@ -1,15 +1,10 @@
-# 🛡️ Full Security Lifecycle Audit & Remediation Report
 ## Project: Vulnerable Node.js & Express Application
-**Organization:** Alexandria National University - Faculty of Engineering
-
 ---
 
 ## 👥 1. Development & Security Team
 * **Moaz Ahmed** - ID: 2305040
 * **Mosab Magdy** - ID: 2305069
 * **Abdelrhman Soliman** - ID: 2305030
-
-**Presented to:** Eng. Mohamed Hatem Abdulkader
 
 ---
 
