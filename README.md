@@ -14,20 +14,16 @@
 ---
 
 ## 📖 2. Executive Summary
-This comprehensive repository documents the end-to-end security hardening of a Node.js web application. We transitioned the application from a highly vulnerable state (16 major findings) to a production-ready secured state (0 custom rule findings). Our approach combined automated DAST, manual exploitation, and SAST-driven remediation.
+This comprehensive repository documents the end-to-end security hardening of a Node.js web application. We transitioned the application from a highly vulnerable state (16 major findings) to a production-ready secured state (0 custom rule findings).
 
 ---
 
 ## 🔍 3. Section 1 - DAST Findings (Identification Phase)
-The Dynamic Application Security Testing (DAST) was performed using a two-phased hybrid approach.
 
 ### 3.1 Automated Scanning Overview (OWASP ZAP)
 We used **OWASP ZAP 2.16.1** to establish a baseline of the security posture.
-* **High-Risk Alerts:** 3 critical vulnerabilities (XSS, SSTI).
-* **Medium-Risk Alerts:** 4 vulnerabilities related to configurations.
-* **Low & Informational Alerts:** 16 findings providing insights into best practices.
 
-![ZAP Summary of Alerts](./screenshots/zap_summary.png)
+![ZAP Summary of Alerts](./Screenshots/zap_summary.png)
 *Figure 1: OWASP ZAP Executive Summary.*
 
 ### 3.2 Manual Penetration Testing Results
@@ -50,17 +46,16 @@ Using **Postman**, we manually verified 8 critical vulnerabilities (V1 to V8).
 
 ### 4.1 SQL Injection (V1)
 * **Exploit:** Appending the malicious payload `1' OR '1'='1` to the ID parameter.
-* **Result:** The database evaluated the statement as true for every row, bypassing intended filters.
 * **Observation:** The server leaked all product records including Stella Artois and Heineken.
 
-![V1 SQL Injection Proof](./screenshots/sqli_exploit.png)
+![V1 SQL Injection Proof](./Screenshots/sqli_exploit.png)
 *Figure 2: Mass data disclosure via SQL Injection.*
 
 ### 4.2 SSTI & XSS (V2 & V3)
 * **SSTI Proof:** Submitting `{{7*7}}` in the message field; the server returned `49`.
 * **XSS Proof:** Injected `<script>alert('XSS')</script>` which executed directly in the browser.
 
-![V2/V3 XSS & SSTI Proof](./screenshots/ssti_proof.png)
+![V2/V3 XSS & SSTI Proof](./Screenshots/ssti_proof.png)
 *Figure 3: Server-Side Template Injection results.*
 
 ---
@@ -70,15 +65,15 @@ We utilized Semgrep to map DAST findings directly to the source code for targete
 
 ### 5.1 Initial Scan Summary
 * **Total Findings:** 16 Critical Findings.
-* **Key Targets:** Hardcoded secrets in `user.js` and insecure templates in `frontend.js`.
 
-![Scan Summary 16 Findings](./screenshots/semgrep_initial.png)
+![Scan Summary 16 Findings](./Screenshots/semgrep_initial.png)
 *Figure 4: Initial SAST scan results with 16 findings.*
 
 ### 5.2 Custom Rules Evidence
-We authored 3 custom rules to demonstrate advanced detection.
-* **JWT Custom Rule:** Identified hardcoded secrets at lines 18, 253, and 406.
-* **SSTI Custom Rule:** Identified unsafe nunjucks usage at lines 17 and 40.
+We authored custom rules to demonstrate advanced detection.
+
+![Custom Rules Detection](./Screenshots/custom_rules_initial.png)
+*Figure 5: Custom Semgrep rules identifying specific project vulnerabilities.*
 
 ---
 
@@ -100,4 +95,32 @@ Post-remediation tests confirm that the application is now secure.
 
 ### 7.1 Manual Verification (After Fixes)
 1. **SQLi Fixed:** The payload `1' OR '1'='1` now returns an empty array `[]`.
-   ![SQL Injection Failing](./screenshots/sqli_fixed.png
+   ![SQL Injection Failing](./Screenshots/sqli_fixed.png)
+
+2. **User Enumeration Fixed:** Unified error `Invalid email or password` for all attempts.
+   ![User Enumeration Unified Message](./Screenshots/user_enum_fixed.png)
+
+3. **SSRF Fixed:** Requests to `127.0.0.1` blocked with `403 Forbidden`.
+   ![SSRF Blocked Proof](./Screenshots/ssrf_fixed.png)
+
+### 7.2 Automated Verification (Final Semgrep)
+* **Standard Rules:** Total findings dropped from 16 to **9 informational audit items**.
+* **Custom Rules:** **0 Findings** across all 23 files.
+
+![Final Semgrep 9 Findings](./Screenshots/semgrep_9_findings.png)
+*Figure 6: Semgrep scan after standard remediation.*
+
+![Final Semgrep 0 Findings](./Screenshots/semgrep_0_findings.png)
+*Figure 7: Final SAST validation confirming clean codebase for custom rules.*
+
+---
+
+## 🚀 8. Installation and Running Instructions
+
+### 1. Prerequisites
+- Node.js (v14+)
+- SQLite/MySQL
+
+### 2. Setup
+```bash
+npm install
