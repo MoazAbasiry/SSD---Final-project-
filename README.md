@@ -146,3 +146,25 @@ Bash
 
 # Start the server
 node src/server.js
+🔧 9. Deep Dive: Technical Remediation Details
+We implemented the following code-level changes to ensure long-term security based on the initial audit.
+
+
+
+9.1 SQL Injection Mitigation
+
+Technique: Switched from raw string concatenation to Sequelize Model Methods.
+
+
+
+Implementation: By using built-in methods like findOne with a where clause, user inputs are treated as literal values, preventing any unauthorized SQL logic execution.
+
+
+
+9.2 SSRF Mitigation
+
+Technique: Implemented IP Blacklisting.
+
+
+
+Implementation: The application now effectively blocks all outbound requests directed at the loopback address (127.0.0.1) or any internal infrastructure, returning a 403 Forbidden status.
